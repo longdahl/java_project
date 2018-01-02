@@ -1,0 +1,197 @@
+
+import numpy as np
+
+x = np.ones([1, 9]) * 0.5
+
+
+def eval(b):
+    for i in range(3):
+        if b[i, 0] == b[i, 1] == b[i, 2] and b[i, 0] != 0:
+            return b[i, 0]
+    for j in range(3):
+        if b[0, j] == b[1, j] == b[2, j] and b[0, j] != 0:
+            return b[0, j]
+    if b[0, 0] == b[1, 1] == b[2, 2] and b[1, 1] != 0:
+        return b[1, 1]
+    if b[0, 2] == b[1, 1] == b[2, 0] and b[0, 2] != 0:
+        return b[0, 2]
+    else:
+        return 0
+
+
+def Tconverter(k):
+    z = ""
+    p = 1
+    if k == 0 or k == 1 or k == 2:
+        return k
+    while (p == 1):
+
+        r = k % 3
+        k = k // 3
+        z = str(r) + str(z)
+
+        if k == 1 or k == 2:
+            r = k % 3
+            z = int(str(r) + str(z))
+            break
+    return z
+
+
+def generateboards():
+    "generates all possibly end board for tic tac toe"
+    boarddict = {}
+
+    for i in range(
+            19682):  # there is 2^9 possible combination on a tic tac toe board finale position before taking into account number of x and o's
+        board = np.zeros([3, 3])
+        bN = str(Tconverter(i))
+        if len(bN) < 9:
+            bN = str(0) * (9 - len(bN)) + bN
+        count = 0
+        for s in bN:
+            if s == "1":
+                board[count // 3, count % 3] = int(s)
+            if s == "2":
+                board[count // 3, count % 3] = -1
+            count += 1
+        if 2 > int(sum(
+                sum(board))) > -2:  # only include board if there is evenly many o's and x or one more of one of them
+            boarddict[bN] = board
+    return boarddict
+    return "input an integer -1 or 1"
+
+
+boarddict = generateboards()
+print(len(boarddict))
+
+
+def sum_digits(digit):
+    sum = 0
+    for x in digit:
+        x = int(x)
+        if x == 2:
+            sum -= 1
+        else:
+            sum += x
+    return sum
+
+
+Tnstring = "000000000"
+count = 0
+solvedict1 = {}
+solvedict2 = {}
+boardlist = []
+boarddict0 = []
+boarddict1 = []
+boarddict2 = []
+boarddict3 = []
+boarddict4 = []
+boarddict5 = []
+boarddict6 = []
+boarddict7 = []
+boarddict8 = []
+boarddict9 = []
+
+boardlist.append(boarddict9)
+boardlist.append(boarddict8)
+boardlist.append(boarddict7)
+boardlist.append(boarddict6)
+boardlist.append(boarddict5)
+boardlist.append(boarddict4)
+boardlist.append(boarddict3)
+boardlist.append(boarddict2)
+boardlist.append(boarddict1)
+boardlist.append(boarddict0)
+
+for s in boarddict.keys():
+    for i in range(10):
+        if s.count("0") == i:
+            boardlist[i].append(s)
+
+
+def minimax(Tnstring, depth, player1, player2):
+    if depth == 9:
+        solvedict2[Tnstring] = eval(boarddict[Tnstring])
+        return
+    if player1 == "1":
+        q = ""
+        max1 = -1
+        c = ""
+        for i in boardlist[8 - depth]:
+            similar = 0
+            if Tnstring == "000000000":
+                print("progress")
+            for k in range(9):
+                if Tnstring[k] != i[k]:
+                    similar += 1
+                    c = i[k]
+            if similar != 1:
+                continue
+            if c == "2":
+                c = ""
+                continue
+            if eval(boarddict[i]) == 1:
+                solvedict1[Tnstring] = i
+                solvedict2[Tnstring] = 1
+                return
+            else:
+                minimax(i, depth + 1, player2, player1)
+                if solvedict2[i] == 1:
+                    solvedict1[Tnstring] = i
+                    solvedict2[Tnstring] = 1
+                    solvedict2[i] = 1
+                    return
+                else:
+                    val = solvedict2[i]
+                if val >= max1:
+                    q = i
+                    max1 = val
+        solvedict1[Tnstring] = q
+        solvedict2[Tnstring] = max1
+        return
+    if player1 == "2":
+        p = ""
+        c = ""
+        max2 = 1
+        for i in boardlist[8 - depth]:
+            similar = 0
+            for k in range(9):
+                if Tnstring[k] != i[k]:
+                    similar += 1
+                    c = i[k]
+            if similar != 1:
+                continue
+            if c == "1":
+                c = ""
+                continue
+            if eval(boarddict[i]) == -1:
+                solvedict1[Tnstring] = i
+                solvedict2[Tnstring] = -1
+                solvedict2[i] = -1
+                return
+            else:
+                minimax(i, depth + 1, player2, player1)
+                if solvedict2[i] == -1:
+                    solvedict1[Tnstring] = i
+                    solvedict2[Tnstring] = -1
+                    return
+                else:
+                    val = solvedict2[i]
+                if val <= max2:
+                    p = i
+                    max2 = val
+        solvedict1[Tnstring] = p
+        solvedict2[Tnstring] = max2
+        return
+
+
+minimax(Tnstring, 0, "1", "2")
+print(len(solvedict1))
+
+""" 
+***guide to use in android studio program***
+
+solvedict1 contains the optimal moves in each position. max2 contains the board evaluation.
+
+save solvedict1 as a semicolon seperated csv file. If your excel is setup to use comma seperated files, the parameter in the split function must be changed accordingly"""
+
