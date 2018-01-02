@@ -20,7 +20,12 @@
         <activity android:name=".gameAI" />
         <activity android:name=".GameAIFirst" />
         <activity android:name=".chooseAI" />
-        <activity android:name=".backup"></activity>
+        <activity android:name=".backup" />
+        <activity android:name=".boardSizeSelect" />
+        <activity android:name=".gameMP" />
+        <activity android:name=".cell" />
+        <activity android:name=".Cell" />
+        <activity android:name=".Board"></activity>
     </application>
 
 </manifest>
