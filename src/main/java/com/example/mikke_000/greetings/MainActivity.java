@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.mikke_000.greetings.R;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-private void goToBoardSizeSelect(){
+    private void goToBoardSizeSelect(){
         Intent intent = new Intent(MainActivity.this,boardSizeSelect.class);
         startActivity(intent);
     }

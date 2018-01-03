@@ -13,7 +13,6 @@ public class Board {
     private Cell[][] cells;
     private int size;
 
-    public boolean debugging = true; // TODO: disable
 
     public Board(gameMP game, int size) {
         this.game = game;

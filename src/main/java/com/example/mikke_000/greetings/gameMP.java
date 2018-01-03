@@ -42,8 +42,8 @@ public class gameMP extends AppCompatActivity {
         width = display.getWidth();
         height = display.getHeight();
 
-        boardSize = getIntent().getExtras().getInt("boardS", 0); // send this with intent when you create slider
-        numFields = boardSize*boardSize;
+        boardSize = getIntent().getExtras().getInt("boardS", 0);
+        numFields = boardSize*boardSize; //used as a countdown to determine games ending in a draw
         board = new Board(this, boardSize);
         GridLayout layout = board.createLayout(this, width);
         layout.setY((width - height / 2));
@@ -83,6 +83,7 @@ public class gameMP extends AppCompatActivity {
     }
 
     public void checkWinCon(int x, int y, int player) {
+        int gamewon = 0; //variable used to fix an issue where winning in the last move would result in a draw
         for (int k = x - 1; k < x + 2; k++) {
             for (int i = y - 1; i < y + 2; i++) {
                 if (k == x & i == y || i < 0 || k < 0 || i > boardSize - 1 || k > boardSize - 1) {
@@ -103,6 +104,7 @@ public class gameMP extends AppCompatActivity {
                     if (odx > -1 & odx < boardSize & ody > -1 & ody < boardSize) {
                         odtarget = this.board.getCell(odx, ody);
                         if (odtarget.getPlayer() == player) {
+                            gamewon = 1;
                             String p = Integer.toString(player);
                             thanksForPlaying(p);
                         }
@@ -110,18 +112,21 @@ public class gameMP extends AppCompatActivity {
                     if (cdx > -1 & cdx < boardSize & cdy > -1 & cdy < boardSize) {
                         cdtarget = this.board.getCell(cdx, cdy);
                         if (cdtarget.getPlayer() == player) {
+                            gamewon = 1;
                             String p = Integer.toString(player);
                             thanksForPlaying(p);
+
                         }
                     }
                 }
             }
         }
         numFields -= 1;
-        if (numFields == 0){
+        if (numFields == 0 & gamewon == 0){
             thanksForPlaying("draw");
         }
     }
+
     public void thanksForPlaying(String p){
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(gameMP.this);
         if (p.equals("draw")){

@@ -32,18 +32,10 @@ public class Cell {
         this.x = x;
         this.y = y;
     }
-    public Cell(Board board, int x, int y, int player) {
-        this.board = board;
-        this.player = player;
-        this.x = x;
-        this.y = y;
-    }
 
     public boolean isEmpty() {
         return this.player == 0;
     }
-
-
 
     public void setPlayer(int player) {
 
@@ -51,7 +43,6 @@ public class Cell {
 
         if (this.button != null) {
             int newBg;
-            // int newBg = R.drawable.; // initialized background
             if (player == 1){
                 newBg = R.drawable.red;
             }
